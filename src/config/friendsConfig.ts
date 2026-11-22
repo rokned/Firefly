@@ -10,7 +10,7 @@ export const friendsPageConfig: FriendsPageConfig = {
 	// 页面描述文本，如果留空则使用 i18n 中的翻译
 	description: "",
 
-	// 是否显示底部自定义内容（friends.mdx 中的内容）
+	//todo 是否显示底部自定义内容（friends.mdx 中的内容）
 	showCustomContent: true,
 
 	// 是否显示评论区，需要先在commentConfig.ts启用评论系统
@@ -39,15 +39,6 @@ export const friendsConfig: FriendLink[] = [
 		siteurl: "https://docs-firefly.cuteleaf.cn",
 		tags: ["Docs"],
 		weight: 9,
-		enabled: true,
-	},
-	{
-		title: "Astro",
-		imgurl: "https://avatars.githubusercontent.com/u/44914786?v=4&s=640",
-		desc: "The web framework for content-driven websites. ⭐️ Star to support our work!",
-		siteurl: "https://github.com/withastro/astro",
-		tags: ["Framework"],
-		weight: 8,
 		enabled: true,
 	},
 ];

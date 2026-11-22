@@ -2,7 +2,7 @@ import type { GalleryConfig } from "@/types/galleryConfig";
 
 // 相册配置
 export const galleryConfig: GalleryConfig = {
-	// 相册列表
+	//todo 相册列表
 	albums: [
 		// 支持jpg/png/webp/avif/gif格式
 		// id: 相册唯一标识符（用于目录命名和URL路径），比如设置：id: "firefly-2026", 对应 public/gallery/firefly-2026/目录
