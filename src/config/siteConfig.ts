@@ -37,7 +37,7 @@ const pages = resolvePageToggles({
 	// ── 关于 (About) ──────────────────────────────────
 
 	// 打赏页面开关
-	sponsor: true,
+	sponsor: false,
 });
 
 export const siteConfig: SiteConfig = {
@@ -86,12 +86,12 @@ export const siteConfig: SiteConfig = {
 		followTheme: false,
 	},
 
-	// todo Favicon 配置
+	// Favicon 配置
 	// 如果启用了OpenGraph图片功能，数组中需要包含png格式的favicon图标
 	favicon: [
 		{
 			// 图标文件路径
-			src: "/favicon/firefly-32.png",
+			src: "/favicon/rokned-favicon-32.png",
 			// 可选，指定主题 'light' | 'dark'
 			// theme: "light",
 			// 可选，图标大小
@@ -99,7 +99,7 @@ export const siteConfig: SiteConfig = {
 		},
 	],
 
-	// todo 导航栏配置
+	// 导航栏配置
 	navbar: {
 		// 导航栏Logo
 		// 支持三种类型：
@@ -112,8 +112,8 @@ export const siteConfig: SiteConfig = {
 		// 使用 Astro 图标库时不需要设置 valueDark，图标会自动跟随主题亮暗色切换
 		logo: {
 			type: "image",
-			value: "assets/images/logo/firefly-light.png",
-			valueDark: "assets/images/logo/firefly-dark.png",
+			value: "assets/images/logo/rokned-concept-3-transparent-light.png",
+			valueDark: "assets/images/logo/rokned-concept-3-transparent-dark.png",
 			alt: "🍀",
 		},
 		// 导航栏标题
@@ -259,7 +259,7 @@ export const siteConfig: SiteConfig = {
 		},
 	},
 
-	//todo  ── Bilibili配置 ──────────────────────────────────
+	//  ── Bilibili配置 ──────────────────────────────────
 	bilibili: {
 		// 你的 Bilibili 用户 UID
 		uid: "38932988",

@@ -1,0 +1,42 @@
+# 每行一个图片 URL，支持 jpg/png/webp/avif/gif后缀
+# # 号开头的行为注释，空行会被忽略
+# 示例：
+https://data.rokned.cn/flandre/135449395_p0_master1200.jpg
+https://data.rokned.cn/flandre/135449395_p1_master1200.jpg
+https://data.rokned.cn/flandre/135632883_p0_master1200.jpg
+https://data.rokned.cn/flandre/135632883_p2_master1200.jpg
+https://data.rokned.cn/flandre/136491756-9113555a6f14f9fa955629f96e6285df_p0_master1200.jpg
+https://data.rokned.cn/flandre/136612729_p1_master1200.jpg
+https://data.rokned.cn/flandre/136612729_p3_master1200.jpg
+https://data.rokned.cn/flandre/136976010_p21_master1200.jpg
+https://data.rokned.cn/flandre/137008797_p2_master1200.jpg
+https://data.rokned.cn/flandre/137008797_p3_master1200.jpg
+https://data.rokned.cn/flandre/137646295-8ab85c51bbe6e8f784dfb517561ec7dc_p0_master1200.jpg
+https://data.rokned.cn/flandre/138752262_p0_master1200.jpg
+https://data.rokned.cn/flandre/141071032_p0_master1200.jpg
+https://data.rokned.cn/flandre/143864733_p0_master1200.jpg
+https://data.rokned.cn/flandre/143864733_p1_master1200.jpg
+https://data.rokned.cn/flandre/143864733_p2_master1200.jpg
+https://data.rokned.cn/flandre/143864733_p3_master1200.jpg
+https://data.rokned.cn/flandre/146819441_p0_master1200.jpg
+https://data.rokned.cn/flandre/148671260_p0_master1200.jpg
+https://data.rokned.cn/flandre/148710931_p0_master1200.jpg
+https://data.rokned.cn/flandre/149528564_p0_master1200.jpg
+https://data.rokned.cn/flandre/149749076_p2_master1200.jpg
+https://data.rokned.cn/flandre/150181693_p1_master1200.jpg
+https://data.rokned.cn/flandre/150306879_p0_master1200.jpg
+https://data.rokned.cn/flandre/150351894_p0_master1200.jpg
+https://data.rokned.cn/flandre/150760161_p0_master1200.jpg
+https://data.rokned.cn/flandre/151128076_p0_master1200.jpg
+https://data.rokned.cn/flandre/151246685_p0_master1200.jpg
+https://data.rokned.cn/flandre/151376738_p0_master1200.jpg
+https://data.rokned.cn/flandre/151382910_p0_master1200.jpg
+https://data.rokned.cn/flandre/151655155_p0_master1200.jpg
+https://data.rokned.cn/flandre/151813976_p0_master1200.jpg
+https://data.rokned.cn/flandre/152105036_p0_master1200.jpg
+https://data.rokned.cn/flandre/152234363_p0_master1200.jpg
+https://data.rokned.cn/flandre/152247096_p0_master1200.jpg
+https://data.rokned.cn/flandre/152352254_p0_master1200.jpg
+https://data.rokned.cn/flandre/152355791_p0_master1200.jpg
+https://data.rokned.cn/flandre/152364227_p0_master1200.jpg
+https://data.rokned.cn/flandre/152365704_p0_master1200.jpg

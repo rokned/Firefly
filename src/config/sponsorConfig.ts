@@ -20,7 +20,7 @@ export const sponsorConfig: SponsorConfig = {
 	// 是否在文章详情页底部显示打赏按钮
 	showButtonInPost: true,
 
-	//todo 打赏方式列表
+	// 打赏方式列表
 	methods: [
 		{
 			name: "支付宝",
