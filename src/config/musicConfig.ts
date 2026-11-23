@@ -18,7 +18,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	playMode: "list",
 
 	// 是否显启用歌词
-	showLyrics: false,
+	showLyrics: true,
 
 	// Meting API 配置
 	meting: {
@@ -49,10 +49,10 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 		playlist: [
 			{
 				name: "使一颗心免于哀伤",
-				artist: "知更鸟 / HOYO-MiX / Chevy",
-				url: "/assets/music/使一颗心免于哀伤-哼唱.mp3",
-				cover: "/assets/music/cover/109951169585655912.webp",
-				lrc: "",
+				artist: "封茗囧菌 / 双笙",
+				url: "/assets/music/时光卷轴.mp3",
+				cover: "/assets/music/cover/1.webp",
+				lrc: "/assets/music/时光卷轴.lrc",
 			},
 		],
 	},
