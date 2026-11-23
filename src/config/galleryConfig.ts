@@ -18,9 +18,17 @@ export const galleryConfig: GalleryConfig = {
 			id: "flandre-scarlet",
 			name: "芙兰朵露",
 			description: "我永远喜欢芙兰朵露。",
-			location: "东方project",
+			location: "幻想乡·红魔馆",
 			date: "2023-06-21",
 			tags: ["东方project", "芙兰朵露"],
+		},
+		{
+			id: "pang-mi",
+			name: "胖咪",
+			description: "小哑巴猫猫。",
+			location: "",
+			date: "2026-05-31",
+			tags: ["猫猫"],
 		},
 		// {
 		// 	id: "encrypted-test",
