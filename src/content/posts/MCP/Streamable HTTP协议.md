@@ -146,11 +146,13 @@ Streamable HTTP 用一次传输层重写解决了上述问题，核心目标：
 
 # 代码使用案例
 
-以下示例基于 **Spring AI / MCP Java SDK** 与官方 **Python SDK**；Java 服务端端点为 `http://localhost:8080/mcp`，Python 服务端端点为 `http://localhost:8000/mcp`。
+以下示例基于 **Spring AI 1.1.8 + MCP Java SDK 0.18.3** 与官方 **Python SDK 1.30.0**；Java 服务端端点为 `http://localhost:8080/mcp`，Python 服务端端点为 `http://127.0.0.1:8000/mcp`。
+
+> 注意：Spring AI **1.0.x 只提供 SSE 传输**，`protocol: STREAMABLE` 需要 1.1.x 及以上版本。
 
 ## 1. Java 服务端（Spring Boot + Spring AI）
 
-引入 Streamable HTTP 的 MCP Server starter（以 Spring AI 1.0.x 为例，版本以实际最新为准）：
+引入 Streamable HTTP 的 MCP Server starter（Spring AI 1.1.8，版本以实际最新为准）：
 
 ```xml
 <dependencyManagement>
@@ -158,7 +160,7 @@ Streamable HTTP 用一次传输层重写解决了上述问题，核心目标：
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-bom</artifactId>
-			<version>1.0.3</version>
+			<version>1.1.8</version>
 			<type>pom</type>
 			<scope>import</scope>
 		</dependency>
@@ -183,6 +185,8 @@ spring:
         name: demo-server
         version: 1.0.0
         protocol: STREAMABLE   # STDIO / SSE / STREAMABLE / STATELESS
+        streamable-http:
+          mcp-endpoint: /mcp
 ```
 
 暴露工具（普通的 Spring Bean，方法即 MCP Tool）：
@@ -217,9 +221,49 @@ public class McpServerApplication {
 }
 ```
 
+浏览器测试页跨域访问 `/mcp` 时，需要额外的 CORS 配置，并暴露 `Mcp-Session-Id` 供前端读取：
+
+```java
+@Configuration
+public class CorsConfig implements WebMvcConfigurer {
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/mcp")
+				.allowedOriginPatterns("*")
+				.allowedMethods("GET", "POST", "DELETE", "OPTIONS")
+				.allowedHeaders("*")
+				.exposedHeaders("Mcp-Session-Id")
+				.maxAge(3600);
+	}
+}
+```
+
+编译时需保留方法参数名（`-parameters`），否则 `@Tool` 生成的 `inputSchema` 会使用 `arg0`、`arg1` 而不是 `a`、`b`。继承 `spring-boot-starter-parent` 时默认已开启，独立 POM 需显式配置：
+
+```xml
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<configuration>
+		<parameters>true</parameters>
+	</configuration>
+</plugin>
+```
+
 启动后 MCP 端点为 `POST /mcp`；若把 `protocol` 改为 `STATELESS`，则得到 Serverless 友好的无状态模式（不生成 `Mcp-Session-Id`）。
 
 ## 2. Java 客户端（MCP Java SDK）
+
+客户端依赖 MCP Java SDK（版本与 Spring AI 1.1.8 对齐）：
+
+```xml
+<dependency>
+	<groupId>io.modelcontextprotocol.sdk</groupId>
+	<artifactId>mcp</artifactId>
+	<version>0.18.3</version>
+</dependency>
+```
 
 ```java
 import io.modelcontextprotocol.client.McpClient;
@@ -259,36 +303,69 @@ public class McpClientDemo {
 
 ## 3. Python 服务端（FastMCP）
 
-```python
-from mcp.server.fastmcp import FastMCP
+安装依赖：`pip install mcp==1.30.0`。为了让浏览器测试页可以直接跨域联调，示例显式挂载了 CORS 中间件，并保留本地 Host / Origin 校验：
 
-mcp = FastMCP("demo-server")
+```python
+import uvicorn
+from mcp.server.fastmcp import FastMCP
+from mcp.server.transport_security import TransportSecuritySettings
+from starlette.middleware.cors import CORSMiddleware
+
+# 本地开发：保留 Host / Origin 校验，同时允许浏览器测试页（file:// 的 Origin 为 "null"）
+security = TransportSecuritySettings(
+    enable_dns_rebinding_protection=True,
+    allowed_hosts=["127.0.0.1:*", "localhost:*", "[::1]:*"],
+    allowed_origins=["http://127.0.0.1:*", "http://localhost:*", "null"],
+)
+
+mcp = FastMCP("demo-server", transport_security=security)
+
 
 @mcp.tool()
 def add(a: int, b: int) -> int:
     """计算两个整数之和"""
     return a + b
 
+
 if __name__ == "__main__":
+    app = mcp.streamable_http_app()
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+        allow_headers=["*"],
+        expose_headers=["Mcp-Session-Id"],
+    )
     # Streamable HTTP 传输，默认端点为 /mcp
-    mcp.run(transport="streamable-http")
+    uvicorn.run(app, host="127.0.0.1", port=8000)
 ```
+
+> 若只供 MCP SDK 客户端使用、不需要浏览器跨域访问，可以直接用最小写法 `mcp.run(transport="streamable-http")`，SDK 会自动使用默认的 `/mcp` 端点。
 
 ## 4. Python 客户端
 
 ```python
 import asyncio
+
 from mcp import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
 
-async def main() -> None:
-    async with streamablehttp_client("http://localhost:8000/mcp") as (read, write, _):
-        async with ClientSession(read, write) as session:
-            await session.initialize()
-            tools = await session.list_tools()
-            print(tools)
 
-asyncio.run(main())
+async def main() -> None:
+    async with streamablehttp_client("http://127.0.0.1:8000/mcp") as (read, write, _):
+        async with ClientSession(read, write) as session:
+            init = await session.initialize()
+            print(f"已连接: {init.serverInfo.name} (协议版本 {init.protocolVersion})")
+
+            tools = await session.list_tools()
+            print("可用工具:", [tool.name for tool in tools.tools])
+
+            result = await session.call_tool("add", {"a": 1, "b": 2})
+            print("调用 add(1, 2) 结果:", result.content)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 
 # 版本演进
