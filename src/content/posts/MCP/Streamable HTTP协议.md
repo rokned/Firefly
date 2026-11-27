@@ -40,7 +40,7 @@ Streamable HTTP 是 MCP 的远程传输方式，于 **2025-03-26** 版规范中�
 5. **鉴权能力受限**：浏览器原生 `EventSource` 不能携带自定义请求头，token 只能塞进 URL 查询参数，容易泄露到日志、代理缓存与浏览器历史中。
    ```js
    // EventSource 没有 headers 参数，Authorization 头加不进去
-const es = new EventSource("https://mcp.example.com/sse?token=abc123");
+   const es = new EventSource("https://mcp.example.com/sse?token=abc123");
    ```
 6. **上行响应无法直接流式**：客户端请求只能拿到普通 JSON 响应，进度、日志、采样等一切流式内容都被迫挤回那条唯一的 SSE 通道，通道成为单点与瓶颈。
 
